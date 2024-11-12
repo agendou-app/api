@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  db-agendou:
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=agendou
+      - POSTGRESQL_PASSWORD=agendou
+      - POSTGRESQL_DATABASE=apiagendou
