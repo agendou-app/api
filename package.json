@@ -14,8 +14,9 @@
     "test:e2e": "vitest run --dir src/http",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
+    "format": "prettier . --write",
     "lint": "eslint",
-    "format": "prettier . --write"
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",

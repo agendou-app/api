@@ -1,0 +1,5 @@
+echo 'Prettier'
+npm run format
+
+echo 'Check for linting errors'
+npm run lint || (echo 'Linting errors or tests failed. Please fix them before commiting.' && exit 1)

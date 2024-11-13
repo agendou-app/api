@@ -10,8 +10,5 @@ export default tseslint.config(
   {
     ignores: ['node_modules', 'build'],
     extends: [eslintConfigPrettier],
-    rules: {
-      'prettier/prettier': 'error',
-    },
   },
 )
