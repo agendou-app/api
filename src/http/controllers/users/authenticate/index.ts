@@ -44,7 +44,7 @@ export async function authenticate(
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(400).send({
-        message: err.message,
+        message: request.i18n.t('invalid_credentials'),
       })
     }
 

@@ -30,7 +30,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
   } catch (err) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({
-        message: err.message,
+        message: request.i18n.t('user_already_exists'),
       })
     }
 
