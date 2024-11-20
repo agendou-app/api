@@ -28,3 +28,43 @@ model User {
 
   @@map("users")
 }
+
+model Schedule {
+  id      String @id @default(uuid())
+  name    String
+  about   String
+  logoUrl String
+  slug    String @unique
+
+  contactId String  @unique
+  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  addressId String?
+  Address   Address? @relation(fields: [addressId], references: [id])
+
+  @@map("schedules")
+}
+
+model Contact {
+  id       String    @id @default(uuid())
+  email    String
+  phone    String
+  schedule Schedule?
+
+  @@map("contacts")
+}
+
+model Address {
+  id           String  @id @default(uuid())
+  street       String
+  number       String
+  neighborhood String
+  city         String
+  state        String
+  zipCode      String
+  complement   String?
+
+  schedule Schedule[]
+
+  @@map("address")
+}
