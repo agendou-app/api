@@ -1,8 +1,11 @@
 import { Prisma, Schedule } from '@prisma/client'
 import { ScheduleSameSlugError } from '@/errors/schedule-same-slug'
 import { SchedulesRepository } from '@/repositories/schedules-repository'
+import { UsersRepository } from '@/repositories/users-repository'
+import { UserNotFoundError } from '@/errors/user-not-found'
 
 interface Request {
+  userId: string
   name: string
   about: string
   slug: string
@@ -16,9 +19,13 @@ interface Response {
 }
 
 export class CreateScheduleUseCase {
-  constructor(private schedulesRepository: SchedulesRepository) {}
+  constructor(
+    private usersRepository: UsersRepository,
+    private schedulesRepository: SchedulesRepository,
+  ) {}
 
   async execute({
+    userId,
     name,
     about,
     slug,
@@ -26,6 +33,12 @@ export class CreateScheduleUseCase {
     contact,
     address,
   }: Request): Promise<Response> {
+    const userExists = await this.usersRepository.findById(userId)
+
+    if (!userExists) {
+      throw new UserNotFoundError()
+    }
+
     const scheduleWithSameSlug = await this.schedulesRepository.findBySlug(slug)
 
     if (scheduleWithSameSlug) {
@@ -37,6 +50,11 @@ export class CreateScheduleUseCase {
       about,
       slug,
       logoUrl,
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
       contact: {
         create: {
           phone: contact.phone,
