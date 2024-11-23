@@ -1,7 +1,7 @@
-import { Prisma, Schedule } from "@prisma/client"
-import { ResourceNotFoundError } from "@/errors/resource-not-found"
-import { ScheduleSameSlugError } from "@/errors/schedule-same-slug"
-import { SchedulesRepository } from "@/repositories/schedules-repository"
+import { Prisma, Schedule } from '@prisma/client'
+import { ResourceNotFoundError } from '@/errors/resource-not-found'
+import { ScheduleSameSlugError } from '@/errors/schedule-same-slug'
+import { SchedulesRepository } from '@/repositories/schedules-repository'
 
 interface Request {
   id: string
@@ -18,7 +18,7 @@ interface Response {
 }
 
 export class UpdateScheduleUseCase {
-  constructor (private schedulesRepository: SchedulesRepository) {}
+  constructor(private schedulesRepository: SchedulesRepository) {}
 
   async execute({
     id,
@@ -27,7 +27,7 @@ export class UpdateScheduleUseCase {
     slug,
     logoUrl,
     contact,
-    address
+    address,
   }: Request): Promise<Response> {
     const scheduleExists = await this.schedulesRepository.findById(id)
 
@@ -36,7 +36,8 @@ export class UpdateScheduleUseCase {
     }
 
     if (slug) {
-      const scheduleWithSameSlug = await this.schedulesRepository.findBySlug(slug)
+      const scheduleWithSameSlug =
+        await this.schedulesRepository.findBySlug(slug)
 
       if (scheduleWithSameSlug) {
         throw new ScheduleSameSlugError()
@@ -51,18 +52,18 @@ export class UpdateScheduleUseCase {
       contact: {
         update: {
           where: {
-            id: contact?.id
+            id: contact?.id,
           },
           data: {
             phone: contact?.phone,
-            email: contact?.email
-          }
-        }
+            email: contact?.email,
+          },
+        },
       },
       address: {
         update: {
           where: {
-            id: address?.id
+            id: address?.id,
           },
           data: {
             street: address?.street,
@@ -72,9 +73,9 @@ export class UpdateScheduleUseCase {
             state: address?.state,
             zipCode: address?.zipCode,
             complement: address?.complement,
-          }
-        }
-      }
+          },
+        },
+      },
     })
 
     return { schedule }
