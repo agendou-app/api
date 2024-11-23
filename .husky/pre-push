@@ -1,2 +1,0 @@
-echo 'Check unit tests'
-npm run test
