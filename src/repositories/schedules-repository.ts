@@ -2,7 +2,7 @@ import { Prisma, Schedule } from '@prisma/client'
 
 type ScheduleWithContactAndAddress = Prisma.ScheduleGetPayload<{
   include: {
-    contact: true,
+    contact: true
     address: true
   }
 }>

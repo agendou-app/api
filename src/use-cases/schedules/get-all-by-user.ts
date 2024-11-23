@@ -10,12 +10,11 @@ interface Request {
 interface Response {
   schedules: Prisma.ScheduleGetPayload<{
     include: {
-      contact: true,
+      contact: true
       address: true
     }
   }>[]
 }
-
 
 export class GetAllSchedulesByUserUseCase {
   constructor(
@@ -23,9 +22,7 @@ export class GetAllSchedulesByUserUseCase {
     private schedulesRepository: SchedulesRepository,
   ) {}
 
-  async execute({
-    userId,
-  }: Request): Promise<Response> {
+  async execute({ userId }: Request): Promise<Response> {
     const userExists = await this.usersRepository.findById(userId)
 
     if (!userExists) {

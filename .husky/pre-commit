@@ -1,8 +1,8 @@
 echo 'Prettier'
-npm run format
+npm run prettier || (echo 'Code styles issues. Please fix them before commiting.' && exit 1)
 
 echo 'Check for linting errors'
 npm run lint || (echo 'Linting errors. Please fix them before commiting.' && exit 1)
 
 echo 'Check for typescript errors'
-npx tsc --noEmit || (echo 'Linting errors. Please fix them before commiting.' && exit 1)
+npx tsc --noEmit || (echo 'Type errors. Please fix them before commiting.' && exit 1)
