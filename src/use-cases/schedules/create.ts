@@ -7,7 +7,7 @@ interface Request {
   about: string
   slug: string
   logoUrl: string
-  contact: Prisma.ContactCreateWithoutScheduleInput,
+  contact: Prisma.ContactCreateWithoutScheduleInput
   address: Prisma.AddressCreateWithoutScheduleInput
 }
 
@@ -18,7 +18,14 @@ interface Response {
 export class CreateScheduleUseCase {
   constructor(private schedulesRepository: SchedulesRepository) {}
 
-  async execute({ name, about, slug, logoUrl, contact, address }: Request): Promise<Response> {
+  async execute({
+    name,
+    about,
+    slug,
+    logoUrl,
+    contact,
+    address,
+  }: Request): Promise<Response> {
     const scheduleWithSameSlug = await this.schedulesRepository.findBySlug(slug)
 
     if (scheduleWithSameSlug) {
@@ -33,13 +40,13 @@ export class CreateScheduleUseCase {
       contact: {
         create: {
           phone: contact.phone,
-          email: contact.email
-        }
+          email: contact.email,
+        },
       },
       address: {
         connectOrCreate: {
           where: {
-            id: address.id
+            id: address.id,
           },
           create: {
             street: address.street,
@@ -48,9 +55,9 @@ export class CreateScheduleUseCase {
             city: address.city,
             state: address.state,
             zipCode: address.zipCode,
-            complement: address.complement
-          }
-        }
+            complement: address.complement,
+          },
+        },
       },
     })
 
