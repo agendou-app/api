@@ -8,6 +8,7 @@ import { ZodError } from 'zod'
 import { env } from './env'
 
 import { usersRoutes } from '@/http/controllers/users/routes'
+import { schedulesRoutes } from '@/http/controllers/schedules/routes'
 
 import { ResourceNotFoundError } from '@/errors/resource-not-found'
 
@@ -26,6 +27,7 @@ app.register(fastifyJwt, {
 })
 
 app.register(usersRoutes)
+app.register(schedulesRoutes)
 
 app.setErrorHandler((error, req, reply) => {
   if (error instanceof ZodError) {

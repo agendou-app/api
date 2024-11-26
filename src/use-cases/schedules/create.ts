@@ -11,7 +11,7 @@ interface Request {
   slug: string
   logoUrl: string
   contact: Prisma.ContactCreateWithoutScheduleInput
-  address: Prisma.AddressCreateWithoutScheduleInput
+  address?: Prisma.AddressCreateWithoutScheduleInput
 }
 
 interface Response {
@@ -45,6 +45,29 @@ export class CreateScheduleUseCase {
       throw new ScheduleSameSlugError()
     }
 
+    let addressData:
+      | Prisma.AddressCreateNestedOneWithoutScheduleInput
+      | undefined = {}
+
+    if (address) {
+      addressData = {
+        connectOrCreate: {
+          where: {
+            id: address.id || '',
+          },
+          create: {
+            street: address.street,
+            number: address.number,
+            neighborhood: address.neighborhood,
+            city: address.city,
+            state: address.state,
+            zipCode: address.zipCode,
+            complement: address.complement,
+          },
+        },
+      }
+    }
+
     const schedule = await this.schedulesRepository.create({
       name,
       about,
@@ -61,22 +84,7 @@ export class CreateScheduleUseCase {
           email: contact.email,
         },
       },
-      address: {
-        connectOrCreate: {
-          where: {
-            id: address.id,
-          },
-          create: {
-            street: address.street,
-            number: address.number,
-            neighborhood: address.neighborhood,
-            city: address.city,
-            state: address.state,
-            zipCode: address.zipCode,
-            complement: address.complement,
-          },
-        },
-      },
+      address: addressData,
     })
 
     return {

@@ -62,7 +62,7 @@ model Contact {
 model Address {
   id           String  @id @default(uuid())
   street       String
-  number       String
+  number       Int
   neighborhood String
   city         String
   state        String
