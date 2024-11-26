@@ -26,6 +26,8 @@ model User {
   role          Role     @default(USER)
   created_at    DateTime @default(now())
 
+  schedules Schedule[]
+
   @@map("users")
 }
 
@@ -41,6 +43,9 @@ model Schedule {
 
   addressId String?
   address   Address? @relation(fields: [addressId], references: [id])
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
 
   @@map("schedules")
 }
