@@ -45,7 +45,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
       schedulesRepository,
     )
 
-    await createScheduleUseCase.execute({
+    const { schedule } = await createScheduleUseCase.execute({
       userId,
       name,
       about,
@@ -54,6 +54,8 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
       contact,
       address,
     })
+
+    return reply.status(201).send({ schedule })
   } catch (err) {
     if (err instanceof UserNotFoundError) {
       return reply.status(404).send({
