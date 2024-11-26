@@ -9,6 +9,7 @@ type ScheduleWithContactAndAddress = Prisma.ScheduleGetPayload<{
 
 export interface SchedulesRepository {
   findById(id: string): Promise<Schedule | null>
+  findByIdAndUserId(id: string, userId: string): Promise<Schedule | null>
   findBySlug(slug: string): Promise<Schedule | null>
   findAllByUser(userId: string): Promise<ScheduleWithContactAndAddress[]>
   create(data: Prisma.ScheduleCreateInput): Promise<Schedule>
