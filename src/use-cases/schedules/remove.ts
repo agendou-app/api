@@ -10,7 +10,7 @@ export class RemoveScheduleUseCase {
   constructor(private schedulesRepository: SchedulesRepository) {}
 
   async execute({ userId, scheduleId }: Request): Promise<void> {
-    const scheduleExists = this.schedulesRepository.findByIdAndUserId(
+    const scheduleExists = await this.schedulesRepository.findByIdAndUserId(
       scheduleId,
       userId,
     )
