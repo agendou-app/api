@@ -79,9 +79,29 @@ describe('Update Schedule (e2e)', () => {
       .set('Authorization', `Bearer ${token}`)
       .send(editedSchedule)
 
-    console.log(response.body.schedule)
-
     expect(response.statusCode).toEqual(200)
     expect(response.body.schedule).toMatchObject(editedSchedule)
+  })
+
+  it('should not be able to create with same slug', async () => {
+    await request(app.server)
+      .post('/schedules')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ ...defaultSchedule, slug: 'same-slug' })
+
+    const scheduleCreatedResponse = await request(app.server)
+      .post('/schedules')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ ...defaultSchedule, slug: 'slug-ok' })
+
+    const response = await request(app.server)
+      .put('/schedule')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        id: scheduleCreatedResponse.body.schedule.id,
+        slug: 'same-slug',
+      })
+
+    expect(response.statusCode).toEqual(409)
   })
 })
