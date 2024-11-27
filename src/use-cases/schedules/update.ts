@@ -9,8 +9,8 @@ interface Request {
   about?: string
   slug?: string
   logoUrl?: string
-  contact?: Prisma.ContactCreateWithoutScheduleInput
-  address?: Prisma.AddressCreateWithoutScheduleInput
+  contact?: Prisma.ContactUpdateWithoutScheduleInput
+  address?: Prisma.AddressUpdateWithoutScheduleInput
 }
 
 interface Response {
@@ -52,7 +52,7 @@ export class UpdateScheduleUseCase {
       contact: {
         update: {
           where: {
-            id: contact?.id,
+            id: contact?.id as string | undefined,
           },
           data: {
             phone: contact?.phone,
@@ -63,7 +63,7 @@ export class UpdateScheduleUseCase {
       address: {
         update: {
           where: {
-            id: address?.id,
+            id: address?.id as string | undefined,
           },
           data: {
             street: address?.street,

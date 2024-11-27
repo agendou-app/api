@@ -13,6 +13,9 @@ export interface SchedulesRepository {
   findBySlug(slug: string): Promise<Schedule | null>
   findAllByUser(userId: string): Promise<ScheduleWithContactAndAddress[]>
   create(data: Prisma.ScheduleCreateInput): Promise<Schedule>
-  update(id: string, data: Prisma.ScheduleUpdateInput): Promise<Schedule>
+  update(
+    id: string,
+    data: Prisma.ScheduleUpdateInput,
+  ): Promise<ScheduleWithContactAndAddress>
   remove(id: string): Promise<void>
 }

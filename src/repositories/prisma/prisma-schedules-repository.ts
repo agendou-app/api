@@ -62,6 +62,10 @@ export class PrismaSchedulesRepository implements SchedulesRepository {
         id,
       },
       data,
+      include: {
+        contact: true,
+        address: true,
+      },
     })
 
     return schedule
